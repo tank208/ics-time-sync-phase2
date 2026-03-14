@@ -59,7 +59,7 @@ literature.
 
 ---
 
-## Phase 2 roadmap (high level)
+## Phase 2 roadmap
 
 Phase 2 is organized into four sub-phases:
 
