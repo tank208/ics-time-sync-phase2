@@ -70,7 +70,7 @@ These capture the “tail behavior” of the time error distribution.
 
 To quantify how often offsets exceed specific thresholds of interest,
 we define a set of thresholds $T = \{ 50~\mu\text{s}, 100~\mu\text{s},$
-$1~\text{ms} \}$.
+$1~\text{ms}\}$.
 
 For a given threshold $\theta \in T$, the exceedance rate is
 
