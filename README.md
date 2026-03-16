@@ -1,6 +1,6 @@
 # ICS Time Synchronization on Commodity Hardware (Phase 2)
 
-This repository contains the Phase 2 work of an ongoing research project on
+This repository contains the Phase 2 work of an ongoing OT/ICS study on
 **time synchronization for industrial control / OT networks** using
 commodity hardware (Raspberry Pi 4B) over a **zero-trust L2 switch**.
 
@@ -35,6 +35,11 @@ grade hardware. This project asks:
 > **commodity Raspberry Pis and a lab zero-trust switch**, with careful
 > measurement and realistic ICS constraints?
 
+In Phase 2 we compare observed offsets and exceedance rates against
+represntative timing targets from IEEE C37.238 power profiles (≈100 µs class)
+and related IEEE 1588 utility guidance, treating those as design guardrails
+rather than strict compliance claims.
+
 Relevant standards and references include IEEE C37.238 and IEEE 1588
 power/utility profiles, plus classic NTP discipline and Allan deviation
 literature.
@@ -47,8 +52,11 @@ literature.
 
 - 2× Raspberry Pi 4B (ARM64, Ubuntu Server 24.04.1).
 - Nile zero-trust L2 switch (isolated lab network).
-- Uputronics GPS/RTC Expansion Board for Raspberry Pi (for later holdover /
-  grandmaster work; antenna planned in a future phase).
+- Uputronics GPS/RTC Expansion Board for Raspberry Pi.
+
+The Uputronics GPS/RTC Expansion Board is used in later sub-phases to
+characterize oscillator holdover and NTP-trained free-run behavior
+prior to adding a full GNSS antenna path.
 
 **Software**
 
@@ -93,6 +101,12 @@ evaluate a Pi-based grandmaster / PTP deployment.
 Details of the roadmap and methods are in
 [`docs/roadmap_phase2.md`](docs/roadmap_phase2.md).
 
+### Current status (snapshot)
+
+As of March 2026, this repo includes curated artifacts from **Phase A Run 1** (~40 h), including consolidated 
+findings, spike analysis, chrony end-state snapshots, ADEV CSVs, and selected plots.
+Subsequent runs (Phase A extended, B1/B2 stress tests, C1 holdover) will be added as they are analyzed.
+
 ---
 
 ## Data and metrics
@@ -118,6 +132,12 @@ The project uses a consistent set of metrics for every run:
 The definitions and formulas are documented in
 [`docs/methods_metrics.md`](docs/methods_metrics.md).
 
+### Example results (Phase 2 Run 1)
+
+Figure 1 (`results/examples/pi1_run1_adev.jpg`) shows the Allan deviation for Pi1 over ~40 hours in Phase 2 Run 1, 
+with averaging times from 10 s to 40,960 s plotted against a 100 µs IEEE C37.238 reference line.
+The curve stays well below the 100 µs band across all τ, consistent with the RMS margins reported in the Run 1 findings.
+
 ---
 
 ## Repository layout
@@ -133,7 +153,7 @@ Planned layout of this public repository:
 │   ├── methods_metrics.md  # Metric definitions and analysis approach
 │   └── glossary.md         # Timing & ICS terminology used in the repo
 ├── scripts/
-│   ├── collection/         # Example collection scripts (sanitized)
+│   ├── collection/         # Example collection scripts (sanitized; no full configs)
 │   └── analysis/           # Reusable analysis tools (e.g. offset/ADEV/cascade)
 ├── results/
 │   ├── examples/           # Selected plots & tables from key runs
@@ -143,4 +163,4 @@ Planned layout of this public repository:
 
 ## Contact
 
-This project is conducted as part of an undergraduate research effort in  cybersecurity and OT/ICS. For questions or collaboration, please contact  the maintainer via GitHub issues or email (listed on the profile).
+This project is conducted as part of an undergraduate research effort in cybersecurity and OT/ICS under faculty and industry mentorship.
