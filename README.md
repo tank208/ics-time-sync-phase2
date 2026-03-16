@@ -134,7 +134,7 @@ The definitions and formulas are documented in
 
 ### Example results (Phase 2 Run 1)
 
-Figure 1 (`results/examples/pi1_run1_adev.jpg`) shows the Allan deviation for Pi1 over ~40 hours in Phase 2 Run 1, 
+Figure 1 [`results/examples/pi1_run1_adev.jpg`](p1_run1_adev) shows the Allan deviation for Pi1 over ~40 hours in Phase 2 Run 1, 
 with averaging times from 10 s to 40,960 s plotted against a 100 µs IEEE C37.238 reference line.
 The curve stays well below the 100 µs band across all τ, consistent with the RMS margins reported in the Run 1 findings.
 
