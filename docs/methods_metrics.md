@@ -245,7 +245,7 @@ For holdover experiments (reference removed):
 
   - Time‑error growth $|x(t)|$ vs $\Delta t$.
   - Time to exceed thresholds: first $\Delta t$ such that
-    $|x(t)| > 10~\mu\text{s}$`, `$100~\mu\text{s}$`, `$1~\text{ms}$.
+    $|x(t)| > 10~\mu\text{s}$, $100~\mu\text{s}$, $1~\text{ms}$.
 
 These metrics quantify practical holdover performance of the GPS/RTC
 HAT and any NTP‑trained configurations.
