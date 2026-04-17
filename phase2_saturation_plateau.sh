@@ -89,7 +89,7 @@ for (( HOUR=1; HOUR<=DURATION_HOURS; HOUR++ )); do
       sleep 15
     fi
   done
-  RESULT=\$(grep -E "sender\$" "\${SEGLOG}" | tail -1 | awk '{print \$(NF-2), \$(NF-1)}' 2>/dev/null || echo "parse error")
+  RESULT=\$(grep -E "sender\$" "\${SEGLOG}" | tail -1 | awk '{print \$7, \$8}' 2>/dev/null || echo "parse error")
   log "SEGMENT_END hour=\${HOUR} throughput=\${RESULT} retries=\${RETRY}"
   snap_ntp "hour_\${HOUR}"
 done
