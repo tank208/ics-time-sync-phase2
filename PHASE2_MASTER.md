@@ -1,9 +1,9 @@
 # PHASE 2 MASTER REFERENCE
 ## Low-Cost Timing Synchronization for Rural Substations
 **Researcher**: William Hall, DeVlieg Scholar — University of Idaho CIIR  
-**Sponsors**: Idaho Power / Schweitzer Engineering Laboratories (SEL)  
+**Sponsors**: Idaho Power / NILE  
 **Advisors**: Dr. John Shovic (PI) · Dr. Mary Everett (Assistant PI)  
-**Last Updated**: 2026-03-24
+**Last Updated**: 2026-04-17
 
 ---
 
@@ -158,15 +158,43 @@ ssh rpi@192.168.50.11 "tail -3 ~/pi2_offsets_run{N}.txt"
   - Pi1 and Pi2: /etc/sudoers.d/chrony-cat added for passwordless chrony log access
 - **tshark**: Not deployed (tshark infrastructure built during this run's closure)
 
-### Run 5 — High Plateau Saturation (IN PROGRESS)
+### Run 5 — High Plateau Burst (43.9 hours)
 - **Started**: 2026-03-24T23:21:39Z
-- **Expected minimum shutdown**: 2026-03-26T12:00 local (Thursday noon return)
-- **Load**: Phase A 60-min quiet baseline → 3× TCP burst cycles (300s each, 4 streams) + UDP tests (100M, 120s) → extended chrony soak
-- **Plateau target**: High (~450 Mbit/s TCP saturation)
-- **tshark**: Active on Pi1, Pi2, X1C7 — filter: udp port 123 or port 5201
-- **Saturation PID on Pi2**: 1653944
-- **New instrumentation**: First run with tshark packet capture on all three nodes
-- **Result**: PENDING
+- **Shutdown**: 2026-03-26T19:17:24Z
+- **Load**: Burst-cycle logic — 3× TCP burst cycles (300s, 4 streams, ~450 Mbit/s peak) + UDP tests; ~15 min active load total
+- **Methodology note**: Burst-cycle design — not a sustained plateau. Active load ~5.75h of 44h total.
+- **Result**: IEEE C37.238 compliant
+  - Pi1 RMS: 19.20 µs (5.2× margin), end-state: 33.19 µs
+  - Pi2 RMS: 20.79 µs (4.8× margin), end-state: 36.71 µs
+- **Spike rate**: Pi1 2.07%, Pi2 3.10%
+- **Key Finding**: First tshark run. NTP pcap lost to iperf3 file rotation — split capture design implemented for Run 6+
+- **tshark**: Active on Pi1, Pi2, X1C7
+
+### Run 6 — Medium Plateau Burst (24.1 hours)
+- **Started**: 2026-03-26T20:08:32Z
+- **Shutdown**: 2026-03-27T20:16:34Z
+- **Load**: Burst-cycle logic — 3× TCP burst cycles (300s, 4 streams, ~150 Mbit/s peak) + UDP tests
+- **Methodology note**: Burst-cycle design — not a sustained plateau. Active load ~5.75h of 24h total.
+- **Result**: IEEE C37.238 compliant
+  - Pi1 RMS: 24.06 µs (4.2× margin), end-state: 9.31 µs
+  - Pi2 RMS: 20.14 µs (5.0× margin), end-state: 17.00 µs
+- **Spike rate**: Pi1 2.38%, Pi2 2.48%
+- **Key Finding**: 100% of spike events on both nodes correlated with NTP poll exchanges — zero NILE routing attribution
+- **tshark**: Active on Pi1, Pi2, X1C7 — split NTP/iperf3 capture
+
+### Run 7 — Low Plateau Sustained (498.4 hours)
+- **Started**: 2026-03-27T22:08:41Z
+- **Shutdown**: 2026-04-17T16:35:26Z
+- **Load**: Sustained plateau — 90× hourly iperf3 segments at 15 Mbit/s continuous; followed by 408h quiet soak
+- **Methodology note**: First true sustained plateau in Phase B1. Correct methodology for servo convergence study.
+- **Result**: IEEE C37.238 compliant
+  - Pi1 RMS: 55.33 µs (1.8× margin), end-state: 4.93 µs
+  - Pi2 RMS: 23.39 µs (4.3× margin), end-state: 12.86 µs
+- **Spike rate**: Pi1 2.83%, Pi2 2.27%
+- **Key Finding**: Pi-2 RMS flat at 23 µs across all B1 load levels — NILE load not a significant timing factor.
+  Pi-1 elevated RMS (55 µs) is duration-driven not load-driven (498h vs 24-44h in prior runs).
+  -7,664.5 µs spike on Pi-1 at 2026-04-07T07:07:34Z — single bad Cloudflare poll, not NILE.
+- **tshark**: Active on Pi1, Pi2, X1C7 — split NTP/iperf3 capture
 
 ---
 
@@ -175,9 +203,9 @@ ssh rpi@192.168.50.11 "tail -3 ~/pi2_offsets_run{N}.txt"
 | Run | Plateau | Target Rate | Status |
 |---|---|---|---|
 | Run 1/2/4 | No load (baseline) | 0 Mbit/s | ✅ Complete |
-| Run 5 | High | ~450 Mbit/s | 🔄 In progress |
-| Run 6 | Medium | ~150 Mbit/s | ⏳ Thu → Fri |
-| Run 7 | Low | ~15 Mbit/s | ⏳ Fri → Mon |
+| Run 5 | High (burst) | ~450 Mbit/s peak | ✅ Complete — 43.9h |
+| Run 6 | Medium (burst) | ~150 Mbit/s peak | ✅ Complete — 24.1h |
+| Run 7 | Low (sustained) | 15 Mbit/s | ✅ Complete — 498.4h |
 
 **B1 Deliverable**: "Impact of Network/UDP Load on NTP Time Synchronization over Nile" — stats, ADEV, CDF/CCDF per plateau, IEEE C37.238/PTP language
 
